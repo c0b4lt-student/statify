@@ -59,6 +59,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>statify-back</finalName>
     </build>
 
 </project>
