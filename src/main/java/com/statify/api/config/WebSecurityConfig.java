@@ -32,25 +32,25 @@ public class WebSecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         // configure AuthenticationManager so that it knows from where to load
         // user for matching credentials
         // Use BCryptPasswordEncoder
-        auth.userDetailsService(jwtUserDetailsService);//.passwordEncoder(passwordEncoder());
+        auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
     }
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // We don't need CSRF for this example
         http
                 .csrf().disable()
                 // dont authenticate this particular request
-                .authorizeHttpRequests().requestMatchers("/login").permitAll()
+                .authorizeHttpRequests().requestMatchers("/login", "/register").permitAll()
                 // all other requests need to be authenticated
                 .anyRequest().authenticated()
                 .and().sessionManagement()

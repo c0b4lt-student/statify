@@ -2,6 +2,7 @@ package com.statify.api.controller;
 
 import com.statify.api.model.JwtRequest;
 import com.statify.api.model.JwtResponse;
+import com.statify.api.model.UserDTO;
 import com.statify.api.service.JwtUserDetailsService;
 import com.statify.api.config.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,11 @@ public class JwtAuthenticationController {
         final String token = jwtTokenUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new JwtResponse(token));
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ResponseEntity<?> saveUser(@RequestBody UserDTO user) throws Exception {
+        return ResponseEntity.ok(userDetailsService.save(user));
     }
 
     private void authenticate(String username, String password) throws Exception {

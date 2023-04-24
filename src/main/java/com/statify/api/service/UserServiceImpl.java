@@ -1,34 +1,33 @@
 package com.statify.api.service;
 
 
-import com.statify.api.model.User;
-import com.statify.api.repository.UserRepository;
+import com.statify.api.model.DAOUser;
+import com.statify.api.repository.UserDAO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
+    private final UserDAO userRepository;
     @Override
-    public User create(User user) {
+    public DAOUser create(DAOUser user) {
         return userRepository.save(user);
     }
 
     @Override
-    public List<User> read() {
+    public List<DAOUser> read() {
         return userRepository.findAll();
     }
 
     @Override
-    public User getByUsername(String username) {
-        List<User> users = userRepository.findAll();
-        for(User u : users) {
+    public DAOUser getByUsername(String username) {
+        List<DAOUser> users = userRepository.findAll();
+        for(DAOUser u : users) {
             if (u.getUsername().equals(username))
                 return u;
         }
@@ -36,7 +35,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User update(UUID id, User user) {
+    public DAOUser update(UUID id, DAOUser user) {
         return userRepository.findById(id)
                 .map(u -> {
                     u.setUsername(user.getUsername() != null ? user.getUsername() : u.getUsername());
