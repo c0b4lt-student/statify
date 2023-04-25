@@ -11,6 +11,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping(path = "/user")
 @AllArgsConstructor
+@CrossOrigin
 public class UserController {
     private final UserService userService; //inversion de controle + injection de dep
 
@@ -19,7 +20,9 @@ public class UserController {
         return userService.create(user);
     }
 
-    @GetMapping("/read")
+    //@GetMapping("/read")
+    @RequestMapping(value = "/read", method = RequestMethod.GET)
+    @CrossOrigin
     public List<DAOUser> read() {
         return userService.read();
     }
